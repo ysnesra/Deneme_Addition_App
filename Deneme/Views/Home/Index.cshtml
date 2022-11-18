@@ -1,0 +1,85 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<a href="#" role="button" id="btnVEricek"> Veri Cek</a>
+
+<br />
+
+
+
+<h4>Toplama İşlemi</h4>
+
+<div class="form-group">
+    <p>a sayısı:</p>
+    <input class="form-control " id="anumber" name="a" type="text" />
+</div>
+<div class="form-group">
+    <p>b sayısı:</p>
+    <input class="form-control " id="bnumber" name="b" type="text" />
+</div>
+
+<button type="button" class="btn btn-success btnAdd" href="/Home/Add" ">TOPLA</button>
+
+<br />
+<p id="result">SONUÇ:</p>
+<div id="divAddResults"></div>
+
+
+<div id="divResults"></div>
+
+
+@section Scripts{
+<script>
+
+    $(".btnAdd").on("click",function(e){
+       e.preventDefault();
+       var that = $(this);
+       
+        var data1 = $("#anumber").val();   //data1 kullanıcının girdiği a sayısının değerini tutar
+        var data2 = $("#bnumber").val();   
+        console.log(data1);
+        console.log(data2);
+        alert("Kullanıcı butona tıkladı.Sıradaki Ajax koduna girecek.");
+
+        $.ajax({
+        url: "/Home/Add",
+        type: 'POST',
+        dataType:'json',
+        data: {
+            a: data1,    //Controllerdaki alınan parametre a degerine inputdaki data1 değerini atarız. 
+            b: data2
+        },
+
+        success: function(data){
+             $("#divAddResults").html(data);
+         }
+        });
+
+    });
+
+</script>
+
+
+<script>
+
+    $("#btnVEricek").on("click",function(){
+
+        alert("Kullanıcı butona tıkladı.Sıradki Ajax koduna girecek.");
+        $.ajax({
+        url: "/Home/GetOgrenciListesiGetir",
+        type: 'POST',
+        dataType: 'json',
+        success: function(result){
+
+            console.log(result) //Json ı direk ekrana basamazsın.Çünkü ekran HTML kodu.
+
+            $("#divResults").html(result);
+
+         }});
+
+    });
+
+</script>
+
+}
